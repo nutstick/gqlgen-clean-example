@@ -11,12 +11,16 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
+	"golang.org/x/crypto/bcrypt"
 	"golang.org/x/net/context"
 	"gopkg.in/mgo.v2/bson"
 )
 
-// Collection name that store admins
-const Collection = "admins"
+const (
+	// Collection name that store admins
+	Collection = "admins"
+	bcryptCost = 13
+)
 
 // mongoRepository contains all the interactions
 // with the admin collection stored in mongo.
@@ -81,9 +85,14 @@ func (m *mongoRepository) GetByEmail(ctx context.Context, email string) (*model.
 // Create will insert new admin into database
 func (m *mongoRepository) Create(ctx context.Context, admin *model.Admin) (*model.Admin, error) {
 	admin.ID = model.ID(bson.NewObjectId().Hex())
+	hashed, err := bcrypt.GenerateFromPassword([]byte(admin.Password), bcryptCost)
+	if err != nil {
+		return nil, err
+	}
+	admin.Password = string(hashed)
 	admin.CreateAt = time.Now()
 	admin.UpdateAt = time.Now()
-	_, err := m.Collection(ctx).InsertOne(ctx, admin)
+	_, err = m.Collection(ctx).InsertOne(ctx, admin)
 	return admin, err
 }
 
@@ -101,8 +110,14 @@ func (m *mongoRepository) Update(ctx context.Context, id model.ID, update *model
 	return &admin, err
 }
 
-// Delete will remove admin by id from database
-func (m *mongoRepository) Delete(ctx context.Context, id model.ID) error {
+// Delete will remove all admins
+func (m *mongoRepository) Delete(ctx context.Context) error {
+	_, err := m.Collection(ctx).DeleteMany(ctx, bson.M{})
+	return err
+}
+
+// DeleteByID will remove admin by id from database
+func (m *mongoRepository) DeleteByID(ctx context.Context, id model.ID) error {
 	_, err := m.Collection(ctx).DeleteOne(ctx, bson.M{"_id": id})
 	return err
 }

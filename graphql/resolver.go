@@ -68,7 +68,7 @@ func (r *queryResolver) Helloworld(ctx context.Context) (string, error) {
 	return "Helloworld", nil
 }
 func (r *queryResolver) Viewer(ctx context.Context) (*model.Admin, error) {
-	session := ctx.Value(constant.Session).(*string)
+	session := ctx.Value(constant.Session).(*model.ID)
 	if session == nil {
 		return nil, nil
 	}

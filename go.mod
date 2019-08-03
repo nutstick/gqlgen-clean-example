@@ -21,7 +21,8 @@ require (
 	github.com/lib/pq v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.8 // indirect
 	github.com/mattn/go-sqlite3 v1.11.0 // indirect
-	github.com/onsi/ginkgo v1.8.0 // indirect
+	github.com/onsi/ginkgo v1.8.0
+	github.com/onsi/gomega v1.5.0
 	github.com/stretchr/objx v0.2.0 // indirect
 	github.com/tidwall/pretty v1.0.0 // indirect
 	github.com/ugorji/go v1.1.7 // indirect

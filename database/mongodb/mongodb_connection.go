@@ -69,6 +69,17 @@ func (m *Connection) Connect() gin.HandlerFunc {
 	}
 }
 
+// WithContext is method apply mongoClient into context
+func (m *Connection) WithContext(ctx context.Context) context.Context {
+	if m != nil {
+		// save it in the mux context
+		return context.WithValue(ctx, mongoClient, m.client)
+	} else {
+		// TODO: Warn
+	}
+	return ctx
+}
+
 // ForContext is method to get mongodb client from context
 func ForContext(ctx context.Context) *mongo.Client {
 	client, ok := ctx.Value(mongoClient).(*mongo.Client)

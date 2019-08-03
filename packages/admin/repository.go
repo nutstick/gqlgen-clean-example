@@ -13,5 +13,6 @@ type Repository interface {
 	GetByEmail(ctx context.Context, email string) (*model.Admin, error)
 	Create(ctx context.Context, admin *model.Admin) (*model.Admin, error)
 	Update(ctx context.Context, id model.ID, update *model.Admin) (*model.Admin, error)
-	Delete(ctx context.Context, id model.ID) error
+	Delete(ctx context.Context) error
+	DeleteByID(ctx context.Context, id model.ID) error
 }
