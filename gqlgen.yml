@@ -13,5 +13,7 @@ resolver:
   filename: graphql/resolver.go
   type: Resolver
 models:
+  ID:
+    model: github.com/nutstick/nithi-backend/model.ID
   Admin:
     model: github.com/nutstick/nithi-backend/model.Admin

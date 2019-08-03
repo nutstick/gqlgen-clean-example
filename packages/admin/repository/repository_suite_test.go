@@ -1,4 +1,4 @@
-package main_test
+package repository_test
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestNithiBackend(t *testing.T) {
+func TestRepository(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "NithiBackend Suite")
+	RunSpecs(t, "admin.Repository Suite")
 }

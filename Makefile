@@ -76,7 +76,7 @@ test:
 	@go test -v ./...
 
 gql:
-	@go run github.com/99designs/gqlgen
+	@go run scripts/gqlgen.go
 
 deploy:
 	@docker build -t gcr.io/nithi-project/nithi-backend-go .
