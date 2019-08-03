@@ -37,6 +37,7 @@ func (m authResponseWriter) Write(data []byte) (n int, err error) {
 	return m.ResponseWriter.Write(data)
 }
 
+// Auth is class provided middleware for read/write token in to request/response cache
 type Auth struct {
 	tokenPassword string
 	logger        *zap.Logger
@@ -49,6 +50,7 @@ type AuthTarget struct {
 	Logger        *zap.Logger
 }
 
+// NewAuth is construct for Auth
 func NewAuth(target AuthTarget) *Auth {
 	return &Auth{
 		tokenPassword: target.TokenPassword,

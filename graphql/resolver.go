@@ -39,7 +39,7 @@ func (r *mutationResolver) Login(ctx context.Context, email string, password str
 	}
 
 	session := ctx.Value(constant.Session).(*string)
-	*session = a.ID
+	*session = string(a.ID)
 
 	return &LoginPayload{a}, err
 }
@@ -57,7 +57,7 @@ func (r *mutationResolver) Register(ctx context.Context, input RegisterInput, se
 	}
 
 	session := ctx.Value(constant.Session).(*string)
-	*session = a.ID
+	*session = string(a.ID)
 
 	return &RegisterPayload{a}, err
 }

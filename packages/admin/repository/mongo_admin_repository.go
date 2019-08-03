@@ -15,6 +15,9 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// Collection name that store admins
+const Collection = "admins"
+
 // mongoRepository contains all the interactions
 // with the admin collection stored in mongo.
 type mongoRepository struct {
@@ -39,7 +42,7 @@ func NewMongoRepository(target MongoRepositoryTarget) admin.Repository {
 
 // Collection method extract mongo session from context and return mgo.Collection of this repository
 func (m *mongoRepository) Collection(ctx context.Context) *mongo.Collection {
-	return mongodb.ForContext(ctx).Database(m.db).Collection("admins")
+	return mongodb.ForContext(ctx).Database(m.db).Collection(Collection)
 }
 
 // GetAll returns all the admins stored in the database.
@@ -62,9 +65,9 @@ func (m *mongoRepository) GetAll(ctx context.Context) ([]*model.Admin, error) {
 }
 
 // GetByID returns one admin which is matched by input ID from the database.
-func (m *mongoRepository) GetByID(ctx context.Context, id string) (*model.Admin, error) {
+func (m *mongoRepository) GetByID(ctx context.Context, id model.ID) (*model.Admin, error) {
 	var admin model.Admin
-	err := m.Collection(ctx).FindOne(ctx, bson.M{"_id": bson.ObjectIdHex(id)}).Decode(&admin)
+	err := m.Collection(ctx).FindOne(ctx, bson.M{"_id": id}).Decode(&admin)
 	return &admin, err
 }
 
@@ -77,7 +80,7 @@ func (m *mongoRepository) GetByEmail(ctx context.Context, email string) (*model.
 
 // Create will insert new admin into database
 func (m *mongoRepository) Create(ctx context.Context, admin *model.Admin) (*model.Admin, error) {
-	admin.ID = bson.NewObjectId().Hex()
+	admin.ID = model.ID(bson.NewObjectId().Hex())
 	admin.CreateAt = time.Now()
 	admin.UpdateAt = time.Now()
 	_, err := m.Collection(ctx).InsertOne(ctx, admin)
@@ -85,21 +88,21 @@ func (m *mongoRepository) Create(ctx context.Context, admin *model.Admin) (*mode
 }
 
 // Update will update admin by id
-func (m *mongoRepository) Update(ctx context.Context, id string, update *model.Admin) (*model.Admin, error) {
+func (m *mongoRepository) Update(ctx context.Context, id model.ID, update *model.Admin) (*model.Admin, error) {
 	var admin model.Admin
-	if err := m.Collection(ctx).FindOne(ctx, bson.M{"_id": bson.ObjectIdHex(id)}).Decode(&admin); err != nil {
+	if err := m.Collection(ctx).FindOne(ctx, bson.M{"_id": id}).Decode(&admin); err != nil {
 		return nil, err
 	}
 	admin.UpdateAt = time.Now()
 	if err := utils.Merge(&admin, *update); err != nil {
 		return nil, err
 	}
-	_, err := m.Collection(ctx).UpdateOne(ctx, bson.M{"_id": bson.ObjectIdHex(id)}, admin)
+	_, err := m.Collection(ctx).UpdateOne(ctx, bson.M{"_id": id}, admin)
 	return &admin, err
 }
 
 // Delete will remove admin by id from database
-func (m *mongoRepository) Delete(ctx context.Context, id string) error {
-	_, err := m.Collection(ctx).DeleteOne(ctx, bson.M{"_id": bson.ObjectIdHex(id)})
+func (m *mongoRepository) Delete(ctx context.Context, id model.ID) error {
+	_, err := m.Collection(ctx).DeleteOne(ctx, bson.M{"_id": id})
 	return err
 }
