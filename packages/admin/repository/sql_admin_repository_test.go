@@ -7,9 +7,8 @@ import (
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxtest"
 	"golang.org/x/net/context"
-	"gopkg.in/mgo.v2/bson"
 
-	"github.com/nutstick/nithi-backend/database/mongodb"
+	"github.com/nutstick/nithi-backend/database/postgresql"
 	"github.com/nutstick/nithi-backend/logging"
 	"github.com/nutstick/nithi-backend/model"
 	"github.com/nutstick/nithi-backend/packages/admin"
@@ -17,24 +16,24 @@ import (
 	"github.com/nutstick/nithi-backend/utiltest"
 )
 
-var _ = Describe("admin.MongoDBRepository", func() {
+var _ = Describe("admin.SQLRepository", func() {
 	// Setup test dependencies
 	var (
 		app      *fxtest.App
 		mockCtrl *gomock.Controller
 		repo     admin.Repository
-		conn     *mongodb.Connection
+		conn     *postgresql.Connection
 		ctx      context.Context
 	)
 
 	BeforeEach(func() {
 		app = fxtest.New(GinkgoT(),
-			fx.Provide(utiltest.NewMongoTestVariable),
+			fx.Provide(utiltest.NewPostgresQLTestVariable),
 			fx.Provide(logging.New),
 			fx.Provide(gomock.NewController),
 			fx.Provide(utiltest.NewTestReporter),
-			fx.Provide(mongodb.New),
-			fx.Provide(NewMongoRepository),
+			fx.Provide(postgresql.New),
+			fx.Provide(NewSQLRepository),
 			fx.Populate(&mockCtrl),
 			fx.Populate(&conn),
 			fx.Populate(&repo),
@@ -45,6 +44,9 @@ var _ = Describe("admin.MongoDBRepository", func() {
 	})
 
 	AfterEach(func() {
+		if err := conn.Client().DropTable(&model.Admin{}).Error; err != nil {
+			panic(err)
+		}
 		defer app.RequireStop()
 		defer mockCtrl.Finish()
 	})
@@ -55,7 +57,8 @@ var _ = Describe("admin.MongoDBRepository", func() {
 				admin, err := repo.Create(ctx, &model.Admin{})
 				Ω(err).To(BeNil())
 				Ω(admin).ToNot(BeNil())
-				bson.ObjectIdHex(string(admin.ID))
+				Ω(string(admin.ID)).To(Equal("1"))
+				Ω(admin.Roles).To(Equal(model.StringArray([]string{})))
 			})
 			It("should be successfully created", func() {
 				admin, err := repo.Create(ctx, &model.Admin{
@@ -65,11 +68,23 @@ var _ = Describe("admin.MongoDBRepository", func() {
 				})
 				Ω(err).To(BeNil())
 				Ω(admin).ToNot(BeNil())
-				bson.ObjectIdHex(string(admin.ID))
+				Ω(string(admin.ID)).To(Equal("1"))
 				Ω(admin.Email).To(Equal("test@nithi.io"))
 				Ω(admin.Password).NotTo(Equal("abc"))
 				Ω(admin.Name).To(Equal("test"))
 				Ω(admin.Roles).To(Equal(model.StringArray([]string{})))
+
+				admin, err = repo.Create(ctx, &model.Admin{
+					Email:    "test2@nithi.io",
+					Password: "def",
+					Name:     "test2",
+				})
+				Ω(err).To(BeNil())
+				Ω(admin).ToNot(BeNil())
+				Ω(string(admin.ID)).To(Equal("2"))
+				Ω(admin.Email).To(Equal("test2@nithi.io"))
+				Ω(admin.Password).NotTo(Equal("def"))
+				Ω(admin.Name).To(Equal("test2"))
 			})
 		})
 	})

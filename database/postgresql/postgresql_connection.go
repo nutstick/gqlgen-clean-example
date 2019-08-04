@@ -2,12 +2,14 @@ package postgresql
 
 import (
 	"context"
-	"database/sql"
-	"log"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
+
+	// Import Postgress drivers
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 // Target is parameters to get all PostgresSQLConnection's dependencies
@@ -20,7 +22,7 @@ type Target struct {
 
 // Connection is connection provider to access to global postgres client
 type Connection struct {
-	client *sql.DB
+	client *gorm.DB
 }
 
 // New is constructor of PostgresSQLConnection
@@ -29,10 +31,14 @@ func New(target Target) (*Connection, error) {
 		return nil, nil
 	}
 
-	client, err := sql.Open("postgres", target.PostgresQLURL)
+	client, err := gorm.Open("postgres", target.PostgresQLURL)
 	if err != nil {
-		log.Fatal(err)
+		target.Logger.Fatal("postgres connection err: ", zap.Error(err))
 	}
+
+	// Zap logger integration
+	// client.LogMode(true)
+	// client.SetLogger(gormzap.New(target.Logger))
 
 	target.Lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
@@ -56,6 +62,10 @@ const (
 	postgresQLClient key = "postgresql_client"
 )
 
+func (m *Connection) Client() *gorm.DB {
+	return m.client
+}
+
 // Connect is method return adpater for http request that
 // inject the database client in context
 func (m *Connection) Connect() gin.HandlerFunc {
@@ -68,9 +78,20 @@ func (m *Connection) Connect() gin.HandlerFunc {
 	}
 }
 
+// WithContext is method apply database into context
+func (m *Connection) WithContext(ctx context.Context) context.Context {
+	if m != nil {
+		// save it in the mux context
+		return context.WithValue(ctx, postgresQLClient, m.client)
+	} else {
+		// TODO: Warn
+	}
+	return ctx
+}
+
 // ForContext is method to get database from context
-func ForContext(ctx context.Context) *sql.DB {
-	client, ok := ctx.Value(postgresQLClient).(*sql.DB)
+func ForContext(ctx context.Context) *gorm.DB {
+	client, ok := ctx.Value(postgresQLClient).(*gorm.DB)
 	if !ok {
 		panic("ctx passing is not contain postgres client")
 	}

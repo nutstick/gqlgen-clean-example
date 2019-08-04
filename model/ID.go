@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql/driver"
+	"fmt"
 	"strconv"
 
 	"gopkg.in/mgo.v2/bson"
@@ -30,12 +31,22 @@ func (id *ID) SetBSON(raw bson.Raw) error {
 
 // Value is custom type for sql for support ID as int
 func (id ID) Value() (driver.Value, error) {
-	return strconv.Atoi(string(id))
+	if string(id) == "" {
+		return int64(0), nil
+	}
+	i, err := strconv.Atoi(string(id))
+	if err != nil {
+		return nil, fmt.Errorf("Unable to convert %v of %T to int", id, id)
+	}
+	return int64(i), nil
 }
 
 // Scan is custom type for sql for support ID as int
 func (id *ID) Scan(value interface{}) error {
-	valueT, _ := value.(int)
-	*id = ID(valueT)
+	valueT, ok := value.(int64)
+	if !ok {
+		return fmt.Errorf("Unable to convert %v of %T to int64", value, value)
+	}
+	*id = ID(strconv.Itoa(int(valueT)))
 	return nil
 }

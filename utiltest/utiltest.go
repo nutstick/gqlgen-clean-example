@@ -6,11 +6,30 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/onsi/ginkgo"
 	"go.uber.org/fx"
-	"gopkg.in/mgo.v2"
 )
 
 func NewTestReporter() gomock.TestReporter {
 	return ginkgo.GinkgoT()
+}
+
+type postgresQLRepositoryResult struct {
+	fx.Out
+	Production bool `name:"PRODUCTION"`
+	// PostgresQL
+	PostgresQLURL string `name:"postgresql_url"`
+	Environment   string `name:"env"`
+}
+
+func NewPostgresQLTestVariable() (postgresQLRepositoryResult, error) {
+	url := "host=127.0.0.1 port=5432 user=postgres dbname=nithi-backend-test sslmode=disable"
+	if os.Getenv("POSTGRESQL_URL") != "" {
+		url = os.Getenv("POSTGRESQL_URL")
+	}
+	return postgresQLRepositoryResult{
+		Production:    false,
+		PostgresQLURL: url,
+		Environment:   "test",
+	}, nil
 }
 
 type mongoRepositoryResult struct {
@@ -20,7 +39,6 @@ type mongoRepositoryResult struct {
 	MongoURL      string `name:"mongo_url"`
 	MongoDatabase string `name:"mongo_database"`
 	Environment   string `name:"env"`
-	Session       *mgo.Session
 }
 
 // type mongoRepositoryTarget struct {

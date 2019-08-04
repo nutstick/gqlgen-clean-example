@@ -11,7 +11,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
-	"golang.org/x/crypto/bcrypt"
 	"golang.org/x/net/context"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -19,7 +18,6 @@ import (
 const (
 	// Collection name that store admins
 	Collection = "admins"
-	bcryptCost = 13
 )
 
 // mongoRepository contains all the interactions
@@ -85,11 +83,12 @@ func (m *mongoRepository) GetByEmail(ctx context.Context, email string) (*model.
 // Create will insert new admin into database
 func (m *mongoRepository) Create(ctx context.Context, admin *model.Admin) (*model.Admin, error) {
 	admin.ID = model.ID(bson.NewObjectId().Hex())
-	hashed, err := bcrypt.GenerateFromPassword([]byte(admin.Password), bcryptCost)
+	hashedPassword, err := hashPassword(admin.Password)
 	if err != nil {
 		return nil, err
 	}
-	admin.Password = string(hashed)
+	admin.Password = hashedPassword
+	admin.Roles = []string{}
 	admin.CreateAt = time.Now()
 	admin.UpdateAt = time.Now()
 	_, err = m.Collection(ctx).InsertOne(ctx, admin)

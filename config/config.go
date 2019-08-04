@@ -34,6 +34,8 @@ type Result struct {
 	// MongoDB
 	MongoURL      string `name:"mongo_url"`
 	MongoDatabase string `name:"mongo_database"`
+	// PostgresQL
+	PostgresQLURL string `name:"postgresql_url"`
 }
 
 // New return all constants using in Project such as Dialogflow's ProjectID, Line's ChannelID
@@ -53,6 +55,7 @@ func New() (Result, error) {
 		TokenPassword:  os.Getenv("TOKEN_PASSWORD"),
 		MongoURL:       os.Getenv("MONGO_URL"),
 		MongoDatabase:  os.Getenv("MONGO_DATABASE"),
+		PostgresQLURL:  os.Getenv("POSTGRESQL_URL"),
 	}, nil
 }
 
