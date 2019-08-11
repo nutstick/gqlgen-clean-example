@@ -24,14 +24,19 @@ func (id ID) MarshalBSONValue() (bsontype.Type, []byte, error) {
 	if len(b) != 12 {
 		return bsontype.ObjectID, bsoncore.AppendObjectID(nil, primitive.NilObjectID), primitive.ErrInvalidHex
 	}
+	// Enforce `byte` to 12 bytes type
 	var oid [12]byte
 	copy(oid[:], b[:])
 	return bsontype.ObjectID, bsoncore.AppendObjectID(nil, oid), err
 }
 
 // UnmarshalBSONValue implements the bsoncodec.ValueUnmarshaler interface.
-func (id *ID) UnmarshalBSONValue(t bsontype.Type, data []byte) error {
-	*id = ID(data)
+func (id *ID) UnmarshalBSONValue(t bsontype.Type, val []byte) error {
+	// Enforce `byte` to 12 bytes type
+	var oid [12]byte
+	copy(oid[:], val[:])
+
+	*id = ID(primitive.ObjectID(oid).Hex())
 	return nil
 }
 
