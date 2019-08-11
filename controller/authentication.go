@@ -21,7 +21,7 @@ type authResponseWriter struct {
 	sessionFromCookie string
 }
 
-func (m authResponseWriter) Write(data []byte) (n int, err error) {
+func (m *authResponseWriter) Write(data []byte) (n int, err error) {
 	if m.sessionToResolver != m.sessionFromCookie {
 		tk := &model.Token{UserID: m.sessionToResolver}
 		token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
@@ -30,8 +30,6 @@ func (m authResponseWriter) Write(data []byte) (n int, err error) {
 			Name:     "token",
 			Value:    tokenString,
 			HttpOnly: true,
-			Path:     "/",
-			Domain:   "127.0.0.1",
 		})
 	}
 	return m.ResponseWriter.Write(data)
@@ -62,7 +60,7 @@ func NewAuth(target AuthTarget) *Auth {
 // session from ctx set in request.Cache
 func (m *Auth) Middleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		arw := authResponseWriter{c.Writer, m.tokenPassword, "", ""}
+		arw := &authResponseWriter{c.Writer, m.tokenPassword, "", ""}
 
 		tokenPart, _ := c.Cookie("token")
 		if tokenPart != "" {
@@ -77,6 +75,7 @@ func (m *Auth) Middleware() gin.HandlerFunc {
 			} else {
 				// Token is invalid, maybe not signed on this server
 				if token.Valid {
+					arw.sessionFromCookie = tk.UserID
 					arw.sessionToResolver = tk.UserID
 				}
 			}

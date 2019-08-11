@@ -109,5 +109,5 @@ type Mutation {
   Admin
   """
   login(email: String!, password: String!): LoginPayload
-  register(admin: RegisterInput!, secret: String): RegisterPayload
+  register(admin: RegisterInput!): RegisterPayload
 }

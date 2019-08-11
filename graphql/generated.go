@@ -37,6 +37,7 @@ type Config struct {
 }
 
 type ResolverRoot interface {
+	Admin() AdminResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
 }
@@ -66,7 +67,7 @@ type ComplexityRoot struct {
 
 	Mutation struct {
 		Login    func(childComplexity int, email string, password string) int
-		Register func(childComplexity int, admin RegisterInput, secret *string) int
+		Register func(childComplexity int, admin RegisterInput) int
 	}
 
 	PageInfo struct {
@@ -86,9 +87,12 @@ type ComplexityRoot struct {
 	}
 }
 
+type AdminResolver interface {
+	Roles(ctx context.Context, obj *model.Admin) ([]string, error)
+}
 type MutationResolver interface {
 	Login(ctx context.Context, email string, password string) (*LoginPayload, error)
-	Register(ctx context.Context, admin RegisterInput, secret *string) (*RegisterPayload, error)
+	Register(ctx context.Context, admin RegisterInput) (*RegisterPayload, error)
 }
 type QueryResolver interface {
 	Helloworld(ctx context.Context) (string, error)
@@ -195,7 +199,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.Register(childComplexity, args["admin"].(RegisterInput), args["secret"].(*string)), true
+		return e.complexity.Mutation.Register(childComplexity, args["admin"].(RegisterInput)), true
 
 	case "PageInfo.endCursor":
 		if e.complexity.PageInfo.EndCursor == nil {
@@ -423,7 +427,7 @@ type Mutation {
   Admin
   """
   login(email: String!, password: String!): LoginPayload
-  register(admin: RegisterInput!, secret: String): RegisterPayload
+  register(admin: RegisterInput!): RegisterPayload
 }
 `},
 )
@@ -479,14 +483,6 @@ func (ec *executionContext) field_Mutation_register_args(ctx context.Context, ra
 		}
 	}
 	args["admin"] = arg0
-	var arg1 *string
-	if tmp, ok := rawArgs["secret"]; ok {
-		arg1, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["secret"] = arg1
 	return args, nil
 }
 
@@ -771,13 +767,13 @@ func (ec *executionContext) _Admin_roles(ctx context.Context, field graphql.Coll
 		Object:   "Admin",
 		Field:    field,
 		Args:     nil,
-		IsMethod: false,
+		IsMethod: true,
 	}
 	ctx = graphql.WithResolverContext(ctx, rctx)
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec._fieldMiddleware(ctx, obj, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Roles, nil
+		return ec.resolvers.Admin().Roles(rctx, obj)
 	})
 
 	if resTmp == nil {
@@ -992,7 +988,7 @@ func (ec *executionContext) _Mutation_register(ctx context.Context, field graphq
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec._fieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().Register(rctx, args["admin"].(RegisterInput), args["secret"].(*string))
+		return ec.resolvers.Mutation().Register(rctx, args["admin"].(RegisterInput))
 	})
 
 	if resTmp == nil {
@@ -2488,34 +2484,43 @@ func (ec *executionContext) _Admin(ctx context.Context, sel ast.SelectionSet, ob
 		case "id":
 			out.Values[i] = ec._Admin_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
 		case "email":
 			out.Values[i] = ec._Admin_email(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
 		case "name":
 			out.Values[i] = ec._Admin_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
 		case "avatar":
 			out.Values[i] = ec._Admin_avatar(ctx, field, obj)
 		case "roles":
-			out.Values[i] = ec._Admin_roles(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Admin_roles(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
 		case "createAt":
 			out.Values[i] = ec._Admin_createAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
 		case "updateAt":
 			out.Values[i] = ec._Admin_updateAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))

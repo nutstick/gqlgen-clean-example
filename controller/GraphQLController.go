@@ -65,10 +65,10 @@ func (m *GraphQLController) GraphiQL() gin.HandlerFunc {
 
 // Register is function to register all controller's endpoint handler
 func (m *GraphQLController) Register(r *gin.Engine) {
-	r.POST("/v1/graphql", m.GrqphQL()).
-		Use(m.mongodb.Connect()).
-		Use(m.auth.Middleware())
-		// Use(m.Middleware())
+	r.Use(m.mongodb.Connect()).
+		Use(m.Middleware()).
+		Use(m.auth.Middleware()).
+		POST("/v1/graphql", m.GrqphQL())
 	if !m.graphiQLEnable {
 		r.GET("/v1/graphiql", m.GraphiQL())
 	}
