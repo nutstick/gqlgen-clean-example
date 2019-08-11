@@ -79,12 +79,12 @@ gql:
 	@go run scripts/gqlgen.go
 
 deploy:
-	@docker build -t gcr.io/nithi-project/nithi-backend-go .
-	@gcloud docker -- push gcr.io/nithi-project/nithi-backend-go
+	@docker build -t gcr.io/nithi-project/gqlgen-clean-example-go .
+	@gcloud docker -- push gcr.io/nithi-project/gqlgen-clean-example-go
 
 deploy-debug:
-	@docker build -t gcr.io/nithi-project/nithi-backend-go -f Dockerfile.debug .
-	@gcloud docker -- push gcr.io/nithi-project/nithi-backend-go
+	@docker build -t gcr.io/nithi-project/gqlgen-clean-example-go -f Dockerfile.debug .
+	@gcloud docker -- push gcr.io/nithi-project/gqlgen-clean-example-go
 
 mock:
 	@sh script/mock.sh

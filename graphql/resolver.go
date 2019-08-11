@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 
-	"github.com/nutstick/nithi-backend/constant"
-	"github.com/nutstick/nithi-backend/model"
-	"github.com/nutstick/nithi-backend/packages/admin"
+	"github.com/nutstick/gqlgen-clean-example/constant"
+	"github.com/nutstick/gqlgen-clean-example/model"
+	"github.com/nutstick/gqlgen-clean-example/packages/admin"
 )
 
 // THIS CODE IS A STARTING POINT ONLY. IT WILL NOT BE UPDATED WITH SCHEMA CHANGES.

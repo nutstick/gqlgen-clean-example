@@ -21,7 +21,7 @@ type postgresQLRepositoryResult struct {
 }
 
 func NewPostgresQLTestVariable() (postgresQLRepositoryResult, error) {
-	url := "host=127.0.0.1 port=5432 user=postgres dbname=nithi-backend-test sslmode=disable"
+	url := "host=127.0.0.1 port=5432 user=postgres dbname=gqlgen-clean-example-test sslmode=disable"
 	if os.Getenv("POSTGRESQL_URL") != "" {
 		url = os.Getenv("POSTGRESQL_URL")
 	}
@@ -51,7 +51,7 @@ func NewMongoTestVariable() (mongoRepositoryResult, error) {
 	if os.Getenv("MONGO_URL") != "" {
 		url = os.Getenv("MONGO_URL")
 	}
-	database := "nithi-backend-test"
+	database := "gqlgen-clean-example-test"
 	if os.Getenv("MONGO_DATABASE") != "" {
 		database = os.Getenv("MONGO_DATABASE")
 	}

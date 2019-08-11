@@ -5,9 +5,9 @@ import (
 
 	"github.com/99designs/gqlgen/handler"
 	"github.com/gin-gonic/gin"
-	"github.com/nutstick/nithi-backend/database/mongodb"
-	"github.com/nutstick/nithi-backend/graphql"
-	"github.com/nutstick/nithi-backend/packages/admin"
+	"github.com/nutstick/gqlgen-clean-example/database/mongodb"
+	"github.com/nutstick/gqlgen-clean-example/graphql"
+	"github.com/nutstick/gqlgen-clean-example/packages/admin"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 )

@@ -14,6 +14,6 @@ resolver:
   type: Resolver
 models:
   ID:
-    model: github.com/nutstick/nithi-backend/model.ID
+    model: github.com/nutstick/gqlgen-clean-example/model.ID
   Admin:
-    model: github.com/nutstick/nithi-backend/model.Admin
+    model: github.com/nutstick/gqlgen-clean-example/model.Admin

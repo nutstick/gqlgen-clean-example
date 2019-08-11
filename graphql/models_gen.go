@@ -7,7 +7,7 @@ import (
 	"io"
 	"strconv"
 
-	"github.com/nutstick/nithi-backend/model"
+	"github.com/nutstick/gqlgen-clean-example/model"
 )
 
 type Connection interface {

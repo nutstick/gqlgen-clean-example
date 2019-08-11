@@ -1,12 +1,12 @@
 package module
 
 import (
-	"github.com/nutstick/nithi-backend/config"
-	"github.com/nutstick/nithi-backend/controller"
-	"github.com/nutstick/nithi-backend/database/mongodb"
-	"github.com/nutstick/nithi-backend/database/postgresql"
-	"github.com/nutstick/nithi-backend/logging"
-	"github.com/nutstick/nithi-backend/server"
+	"github.com/nutstick/gqlgen-clean-example/config"
+	"github.com/nutstick/gqlgen-clean-example/controller"
+	"github.com/nutstick/gqlgen-clean-example/database/mongodb"
+	"github.com/nutstick/gqlgen-clean-example/database/postgresql"
+	"github.com/nutstick/gqlgen-clean-example/logging"
+	"github.com/nutstick/gqlgen-clean-example/server"
 	"go.uber.org/fx"
 )
 

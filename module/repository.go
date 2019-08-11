@@ -1,7 +1,7 @@
 package module
 
 import (
-	admin "github.com/nutstick/nithi-backend/packages/admin/repository"
+	admin "github.com/nutstick/gqlgen-clean-example/packages/admin/repository"
 	"go.uber.org/fx"
 )
 

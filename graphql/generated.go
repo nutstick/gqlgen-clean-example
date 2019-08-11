@@ -14,7 +14,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
-	"github.com/nutstick/nithi-backend/model"
+	"github.com/nutstick/gqlgen-clean-example/model"
 	"github.com/vektah/gqlparser"
 	"github.com/vektah/gqlparser/ast"
 )
@@ -477,7 +477,7 @@ func (ec *executionContext) field_Mutation_register_args(ctx context.Context, ra
 	args := map[string]interface{}{}
 	var arg0 RegisterInput
 	if tmp, ok := rawArgs["admin"]; ok {
-		arg0, err = ec.unmarshalNRegisterInput2githubᚗcomᚋnutstickᚋnithiᚑbackendᚋgraphqlᚐRegisterInput(ctx, tmp)
+		arg0, err = ec.unmarshalNRegisterInput2githubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋgraphqlᚐRegisterInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -652,7 +652,7 @@ func (ec *executionContext) _Admin_id(ctx context.Context, field graphql.Collect
 	res := resTmp.(model.ID)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return ec.marshalNID2githubᚗcomᚋnutstickᚋnithiᚑbackendᚋmodelᚐID(ctx, field.Selections, res)
+	return ec.marshalNID2githubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋmodelᚐID(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Admin_email(ctx context.Context, field graphql.CollectedField, obj *model.Admin) (ret graphql.Marshaler) {
@@ -887,7 +887,7 @@ func (ec *executionContext) _AuthenticatePayload_admin(ctx context.Context, fiel
 	res := resTmp.(*model.Admin)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return ec.marshalNAdmin2ᚖgithubᚗcomᚋnutstickᚋnithiᚑbackendᚋmodelᚐAdmin(ctx, field.Selections, res)
+	return ec.marshalNAdmin2ᚖgithubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋmodelᚐAdmin(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _LoginPayload_viewer(ctx context.Context, field graphql.CollectedField, obj *LoginPayload) (ret graphql.Marshaler) {
@@ -921,7 +921,7 @@ func (ec *executionContext) _LoginPayload_viewer(ctx context.Context, field grap
 	res := resTmp.(*model.Admin)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return ec.marshalNAdmin2ᚖgithubᚗcomᚋnutstickᚋnithiᚑbackendᚋmodelᚐAdmin(ctx, field.Selections, res)
+	return ec.marshalNAdmin2ᚖgithubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋmodelᚐAdmin(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_login(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -959,7 +959,7 @@ func (ec *executionContext) _Mutation_login(ctx context.Context, field graphql.C
 	res := resTmp.(*LoginPayload)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return ec.marshalOLoginPayload2ᚖgithubᚗcomᚋnutstickᚋnithiᚑbackendᚋgraphqlᚐLoginPayload(ctx, field.Selections, res)
+	return ec.marshalOLoginPayload2ᚖgithubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋgraphqlᚐLoginPayload(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_register(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -997,7 +997,7 @@ func (ec *executionContext) _Mutation_register(ctx context.Context, field graphq
 	res := resTmp.(*RegisterPayload)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return ec.marshalORegisterPayload2ᚖgithubᚗcomᚋnutstickᚋnithiᚑbackendᚋgraphqlᚐRegisterPayload(ctx, field.Selections, res)
+	return ec.marshalORegisterPayload2ᚖgithubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋgraphqlᚐRegisterPayload(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _PageInfo_hasNextPage(ctx context.Context, field graphql.CollectedField, obj *PageInfo) (ret graphql.Marshaler) {
@@ -1192,7 +1192,7 @@ func (ec *executionContext) _Query_viewer(ctx context.Context, field graphql.Col
 	res := resTmp.(*model.Admin)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return ec.marshalOAdmin2ᚖgithubᚗcomᚋnutstickᚋnithiᚑbackendᚋmodelᚐAdmin(ctx, field.Selections, res)
+	return ec.marshalOAdmin2ᚖgithubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋmodelᚐAdmin(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1295,7 +1295,7 @@ func (ec *executionContext) _RegisterPayload_admin(ctx context.Context, field gr
 	res := resTmp.(*model.Admin)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return ec.marshalNAdmin2ᚖgithubᚗcomᚋnutstickᚋnithiᚑbackendᚋmodelᚐAdmin(ctx, field.Selections, res)
+	return ec.marshalNAdmin2ᚖgithubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋmodelᚐAdmin(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) ___Directive_name(ctx context.Context, field graphql.CollectedField, obj *introspection.Directive) (ret graphql.Marshaler) {
@@ -2980,11 +2980,11 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 
 // region    ***************************** type.gotpl *****************************
 
-func (ec *executionContext) marshalNAdmin2githubᚗcomᚋnutstickᚋnithiᚑbackendᚋmodelᚐAdmin(ctx context.Context, sel ast.SelectionSet, v model.Admin) graphql.Marshaler {
+func (ec *executionContext) marshalNAdmin2githubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋmodelᚐAdmin(ctx context.Context, sel ast.SelectionSet, v model.Admin) graphql.Marshaler {
 	return ec._Admin(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNAdmin2ᚖgithubᚗcomᚋnutstickᚋnithiᚑbackendᚋmodelᚐAdmin(ctx context.Context, sel ast.SelectionSet, v *model.Admin) graphql.Marshaler {
+func (ec *executionContext) marshalNAdmin2ᚖgithubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋmodelᚐAdmin(ctx context.Context, sel ast.SelectionSet, v *model.Admin) graphql.Marshaler {
 	if v == nil {
 		if !ec.HasError(graphql.GetResolverContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -3008,12 +3008,12 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
-func (ec *executionContext) unmarshalNID2githubᚗcomᚋnutstickᚋnithiᚑbackendᚋmodelᚐID(ctx context.Context, v interface{}) (model.ID, error) {
+func (ec *executionContext) unmarshalNID2githubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋmodelᚐID(ctx context.Context, v interface{}) (model.ID, error) {
 	tmp, err := graphql.UnmarshalString(v)
 	return model.ID(tmp), err
 }
 
-func (ec *executionContext) marshalNID2githubᚗcomᚋnutstickᚋnithiᚑbackendᚋmodelᚐID(ctx context.Context, sel ast.SelectionSet, v model.ID) graphql.Marshaler {
+func (ec *executionContext) marshalNID2githubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋmodelᚐID(ctx context.Context, sel ast.SelectionSet, v model.ID) graphql.Marshaler {
 	res := graphql.MarshalString(string(v))
 	if res == graphql.Null {
 		if !ec.HasError(graphql.GetResolverContext(ctx)) {
@@ -3023,7 +3023,7 @@ func (ec *executionContext) marshalNID2githubᚗcomᚋnutstickᚋnithiᚑbackend
 	return res
 }
 
-func (ec *executionContext) unmarshalNRegisterInput2githubᚗcomᚋnutstickᚋnithiᚑbackendᚋgraphqlᚐRegisterInput(ctx context.Context, v interface{}) (RegisterInput, error) {
+func (ec *executionContext) unmarshalNRegisterInput2githubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋgraphqlᚐRegisterInput(ctx context.Context, v interface{}) (RegisterInput, error) {
 	return ec.unmarshalInputRegisterInput(ctx, v)
 }
 
@@ -3310,11 +3310,11 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 	return res
 }
 
-func (ec *executionContext) marshalOAdmin2githubᚗcomᚋnutstickᚋnithiᚑbackendᚋmodelᚐAdmin(ctx context.Context, sel ast.SelectionSet, v model.Admin) graphql.Marshaler {
+func (ec *executionContext) marshalOAdmin2githubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋmodelᚐAdmin(ctx context.Context, sel ast.SelectionSet, v model.Admin) graphql.Marshaler {
 	return ec._Admin(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalOAdmin2ᚖgithubᚗcomᚋnutstickᚋnithiᚑbackendᚋmodelᚐAdmin(ctx context.Context, sel ast.SelectionSet, v *model.Admin) graphql.Marshaler {
+func (ec *executionContext) marshalOAdmin2ᚖgithubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋmodelᚐAdmin(ctx context.Context, sel ast.SelectionSet, v *model.Admin) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -3367,22 +3367,22 @@ func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.Sele
 	return ec.marshalOInt2int(ctx, sel, *v)
 }
 
-func (ec *executionContext) marshalOLoginPayload2githubᚗcomᚋnutstickᚋnithiᚑbackendᚋgraphqlᚐLoginPayload(ctx context.Context, sel ast.SelectionSet, v LoginPayload) graphql.Marshaler {
+func (ec *executionContext) marshalOLoginPayload2githubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋgraphqlᚐLoginPayload(ctx context.Context, sel ast.SelectionSet, v LoginPayload) graphql.Marshaler {
 	return ec._LoginPayload(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalOLoginPayload2ᚖgithubᚗcomᚋnutstickᚋnithiᚑbackendᚋgraphqlᚐLoginPayload(ctx context.Context, sel ast.SelectionSet, v *LoginPayload) graphql.Marshaler {
+func (ec *executionContext) marshalOLoginPayload2ᚖgithubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋgraphqlᚐLoginPayload(ctx context.Context, sel ast.SelectionSet, v *LoginPayload) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._LoginPayload(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalORegisterPayload2githubᚗcomᚋnutstickᚋnithiᚑbackendᚋgraphqlᚐRegisterPayload(ctx context.Context, sel ast.SelectionSet, v RegisterPayload) graphql.Marshaler {
+func (ec *executionContext) marshalORegisterPayload2githubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋgraphqlᚐRegisterPayload(ctx context.Context, sel ast.SelectionSet, v RegisterPayload) graphql.Marshaler {
 	return ec._RegisterPayload(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalORegisterPayload2ᚖgithubᚗcomᚋnutstickᚋnithiᚑbackendᚋgraphqlᚐRegisterPayload(ctx context.Context, sel ast.SelectionSet, v *RegisterPayload) graphql.Marshaler {
+func (ec *executionContext) marshalORegisterPayload2ᚖgithubᚗcomᚋnutstickᚋgqlgenᚑcleanᚑexampleᚋgraphqlᚐRegisterPayload(ctx context.Context, sel ast.SelectionSet, v *RegisterPayload) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}

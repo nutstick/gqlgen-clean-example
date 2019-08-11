@@ -1,4 +1,4 @@
-module github.com/nutstick/nithi-backend
+module github.com/nutstick/gqlgen-clean-example
 
 require (
 	cloud.google.com/go v0.43.0 // indirect

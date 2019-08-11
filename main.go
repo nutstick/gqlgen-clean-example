@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/nutstick/nithi-backend/controller"
-	"github.com/nutstick/nithi-backend/module"
+	"github.com/nutstick/gqlgen-clean-example/controller"
+	"github.com/nutstick/gqlgen-clean-example/module"
 	"go.uber.org/fx"
 )
 

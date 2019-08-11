@@ -6,8 +6,8 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/nutstick/nithi-backend/constant"
-	"github.com/nutstick/nithi-backend/model"
+	"github.com/nutstick/gqlgen-clean-example/constant"
+	"github.com/nutstick/gqlgen-clean-example/model"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 )

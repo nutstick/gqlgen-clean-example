@@ -3,7 +3,7 @@ package admin
 import (
 	"context"
 
-	"github.com/nutstick/nithi-backend/model"
+	"github.com/nutstick/gqlgen-clean-example/model"
 )
 
 type key string

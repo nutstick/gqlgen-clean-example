@@ -8,12 +8,12 @@ import (
 	"go.uber.org/fx/fxtest"
 	"golang.org/x/net/context"
 
-	"github.com/nutstick/nithi-backend/database/postgresql"
-	"github.com/nutstick/nithi-backend/logging"
-	"github.com/nutstick/nithi-backend/model"
-	"github.com/nutstick/nithi-backend/packages/admin"
-	. "github.com/nutstick/nithi-backend/packages/admin/repository"
-	"github.com/nutstick/nithi-backend/utiltest"
+	"github.com/nutstick/gqlgen-clean-example/database/postgresql"
+	"github.com/nutstick/gqlgen-clean-example/logging"
+	"github.com/nutstick/gqlgen-clean-example/model"
+	"github.com/nutstick/gqlgen-clean-example/packages/admin"
+	. "github.com/nutstick/gqlgen-clean-example/packages/admin/repository"
+	"github.com/nutstick/gqlgen-clean-example/utiltest"
 )
 
 var _ = Describe("admin.SQLRepository", func() {

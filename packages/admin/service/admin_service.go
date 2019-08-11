@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	"github.com/nutstick/nithi-backend/model"
-	"github.com/nutstick/nithi-backend/packages/admin"
+	"github.com/nutstick/gqlgen-clean-example/model"
+	"github.com/nutstick/gqlgen-clean-example/packages/admin"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 	"golang.org/x/crypto/bcrypt"
