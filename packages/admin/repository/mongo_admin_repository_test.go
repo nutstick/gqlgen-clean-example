@@ -65,7 +65,6 @@ var _ = Describe("admin.MongoDBRepository", func() {
 				})
 				Ω(err).To(BeNil())
 				Ω(admin).ToNot(BeNil())
-				bson.ObjectIdHex(string(admin.ID))
 				Ω(admin.Email).To(Equal("test@nithi.io"))
 				Ω(admin.Password).NotTo(Equal("abc"))
 				Ω(admin.Name).To(Equal("test"))

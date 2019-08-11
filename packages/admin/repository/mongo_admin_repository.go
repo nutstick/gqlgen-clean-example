@@ -8,11 +8,12 @@ import (
 	"github.com/nutstick/nithi-backend/model"
 	"github.com/nutstick/nithi-backend/packages/admin"
 	"github.com/nutstick/nithi-backend/utils"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 	"golang.org/x/net/context"
-	"gopkg.in/mgo.v2/bson"
 )
 
 const (
@@ -82,7 +83,7 @@ func (m *mongoRepository) GetByEmail(ctx context.Context, email string) (*model.
 
 // Create will insert new admin into database
 func (m *mongoRepository) Create(ctx context.Context, admin *model.Admin) (*model.Admin, error) {
-	admin.ID = model.ID(bson.NewObjectId().Hex())
+	admin.ID = model.ID(primitive.NewObjectID().Hex())
 	hashedPassword, err := hashPassword(admin.Password)
 	if err != nil {
 		return nil, err

@@ -2,31 +2,37 @@ package model
 
 import (
 	"database/sql/driver"
+	"encoding/hex"
 	"fmt"
 	"strconv"
 
-	"gopkg.in/mgo.v2/bson"
+	"go.mongodb.org/mongo-driver/bson/bsontype"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/x/bsonx/bsoncore"
 )
 
 // ID is type alias for cross database ID, for File or SQL will be string
 // for mongodb will be bson.ObjectId
 type ID string
 
-// GetBSON is custom bson serialize function for support ID as ObjectID
-func (id ID) GetBSON() (interface{}, error) {
-	return bson.ObjectIdHex(string(id)), nil
+// MarshalBSONValue is custom bson serialize function for support ID as ObjectID
+func (id ID) MarshalBSONValue() (bsontype.Type, []byte, error) {
+	b, err := hex.DecodeString(string(id))
+	if err != nil {
+		return bsontype.ObjectID, bsoncore.AppendObjectID(nil, primitive.NilObjectID), err
+	}
+	if len(b) != 12 {
+		return bsontype.ObjectID, bsoncore.AppendObjectID(nil, primitive.NilObjectID), primitive.ErrInvalidHex
+	}
+	var oid [12]byte
+	copy(oid[:], b[:])
+	return bsontype.ObjectID, bsoncore.AppendObjectID(nil, oid), err
 }
 
-// SetBSON is custom bson serialize function for support ID as ObjectID
-func (id *ID) SetBSON(raw bson.Raw) error {
-	var decoded bson.ObjectId
-	bsonErr := raw.Unmarshal(decoded)
-
-	if bsonErr == nil {
-		*id = ID(decoded.Hex())
-		return nil
-	}
-	return bsonErr
+// UnmarshalBSONValue implements the bsoncodec.ValueUnmarshaler interface.
+func (id *ID) UnmarshalBSONValue(t bsontype.Type, data []byte) error {
+	*id = ID(data)
+	return nil
 }
 
 // Value is custom type for sql for support ID as int
