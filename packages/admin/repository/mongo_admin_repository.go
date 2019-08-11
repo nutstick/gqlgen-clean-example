@@ -89,7 +89,7 @@ func (m *mongoRepository) Create(ctx context.Context, admin *model.Admin) (*mode
 		return nil, err
 	}
 	admin.Password = hashedPassword
-	admin.Roles = []string{}
+	admin.Roles = model.StringArray{}
 	admin.CreateAt = time.Now()
 	admin.UpdateAt = time.Now()
 	_, err = m.Collection(ctx).InsertOne(ctx, admin)

@@ -70,7 +70,7 @@ func (m *sqlRepository) Create(ctx context.Context, admin *model.Admin) (*model.
 		return nil, err
 	}
 	admin.Password = hashedPassword
-	admin.Roles = []string{}
+	admin.Roles = model.StringArray{}
 	admin.CreateAt = time.Now()
 	admin.UpdateAt = time.Now()
 	err = m.DB(ctx).Debug().Create(admin).Error
