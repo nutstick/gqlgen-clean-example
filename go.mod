@@ -2,7 +2,7 @@ module github.com/nutstick/gqlgen-clean-example
 
 require (
 	cloud.google.com/go v0.43.0 // indirect
-	github.com/99designs/gqlgen v0.9.1
+	github.com/99designs/gqlgen v0.10.1
 	github.com/Nvveen/Gotty v0.0.0-20120604004816-cd527374f1e5 // indirect
 	github.com/agnivade/levenshtein v1.0.2 // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
@@ -15,6 +15,7 @@ require (
 	github.com/gin-contrib/zap v0.0.0-20190528085758-3cc18cd8fce3
 	github.com/gin-gonic/gin v1.4.0
 	github.com/golang/mock v1.3.1
+	github.com/golang/protobuf v1.3.2
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/google/pprof v0.0.0-20190723021845-34ac40c74b70 // indirect
 	github.com/gorilla/websocket v1.4.0 // indirect
@@ -31,6 +32,7 @@ require (
 	github.com/opencontainers/go-digest v1.0.0-rc1 // indirect
 	github.com/opencontainers/image-spec v1.0.1 // indirect
 	github.com/opencontainers/runc v0.1.1 // indirect
+	github.com/opentracing/opentracing-go v1.0.2
 	github.com/ory/dockertest v3.3.4+incompatible // indirect
 	github.com/sirupsen/logrus v1.4.2 // indirect
 	github.com/stretchr/objx v0.2.0 // indirect

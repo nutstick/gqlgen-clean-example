@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/nutstick/gqlgen-clean-example/database/mongodb"
 	"github.com/nutstick/gqlgen-clean-example/graphql"
+	"github.com/nutstick/gqlgen-clean-example/graphql/gqlapolloenginetracing"
 	"github.com/nutstick/gqlgen-clean-example/packages/admin"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
@@ -47,7 +48,11 @@ func NewGraphQLController(target GraphQLControllerTarget) Result {
 
 // GrqphQL is defining as the GraphQL handler
 func (m *GraphQLController) GrqphQL() gin.HandlerFunc {
-	h := handler.GraphQL(graphql.NewExecutableSchema(graphql.Config{Resolvers: &graphql.Resolver{}}))
+	h := handler.GraphQL(
+		graphql.NewExecutableSchema(graphql.Config{Resolvers: &graphql.Resolver{}}),
+		// handler.RequestMiddleware(gqlapolloenginetracing.RequestMiddleware()),
+		handler.Tracer(gqlapolloenginetracing.NewTracer(m.logger)),
+	)
 
 	return func(c *gin.Context) {
 		h.ServeHTTP(c.Writer, c.Request)
